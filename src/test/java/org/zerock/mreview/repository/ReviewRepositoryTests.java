@@ -9,6 +9,7 @@ import org.zerock.mreview.entity.Movie;
 import org.zerock.mreview.entity.Review;
 import org.zerock.mreview.reposiotry.ReviewRepository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -40,6 +41,21 @@ public class ReviewRepositoryTests {
             reviewRepository.save(review);
         });
 
+    }
+    @Test
+    @DisplayName("특정 영화의 모든 리뷰와 회원 닉네임")
+    void testGetMovieReviews(){
+
+        Movie movie =Movie.builder().mno(72L).build();
+
+        List<Review> result = reviewRepository.findByMovie(movie);
+
+        result.forEach(movieReview->{
+            System.out.print(movieReview.getReviewNum());
+            System.out.println("\t"+movieReview.getGrade());
+            System.out.println("\t"+movieReview.getText());
+            System.out.println("\t"+movieReview.getMember().getEmail());
+        });
     }
 
 }
